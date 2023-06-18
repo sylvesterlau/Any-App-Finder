@@ -6,11 +6,7 @@
     box-sizing: border-box;
     }
 
-input {
-    all: unset;
-    }
-input:focus,
-select:focus {
+input:focus, select:focus {
     outline: none;
 }
 form#search {
@@ -45,7 +41,6 @@ form#search button#submit {
     color: #fff;
     font-size: 12px;
     line-height: 1;
-    /* padding: 0 10px; */
     height: 32px;
     width: 48px;
     border-radius: 0 8px 8px 0;
@@ -58,11 +53,10 @@ form#search button#submit {
 div.app {
     cursor: pointer;
     width: 100%;
-    padding: 8px 12px;
+    padding: 12px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* justify-content: space-between; */
 }
     
 div.app:hover{
