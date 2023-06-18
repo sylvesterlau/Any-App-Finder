@@ -1,15 +1,19 @@
 *{
     padding: 0;
     margin: 0;
-    max-width: 400px;
+    max-width: 300px;
     font-family: sans-serif;
     box-sizing: border-box;
     }
-    input:focus,
-    select:focus {
-    outline: none;
+
+input {
+    all: unset;
     }
-    form#search {
+input:focus,
+select:focus {
+    outline: none;
+}
+form#search {
     padding: 8px 12px;
     background: #fff;
     display: flex;
@@ -17,64 +21,72 @@
     justify-content: space-between;
     position: sticky;
     top: 0;
-    }
-    form#search select#region {
+}
+form#search select#region {
     font-size: 12px;
     height: 32px;
+    background-color: #fff;
     border: solid #E5E5E5 1px;
     border-radius: 8px 0 0 8px;
-    }
+    padding: 0 4px;
+}
     
-    form#search input#appname {
-    font-size: 14px;
+form#search input#appname {
+    font-size: 12px;
     line-height: 1;
     padding: 0 10px;
     height: 32px;
     box-sizing: border-box;
     border: solid #E5E5E5 1px;
     width: 100%;
-    }
+}
     
-    form#search button#submit {
+form#search button#submit {
     color: #fff;
     font-size: 12px;
     line-height: 1;
-    padding: 0 10px;
+    /* padding: 0 10px; */
     height: 32px;
-    width: 60px;
+    width: 48px;
     border-radius: 0 8px 8px 0;
     border: none;
     box-sizing: border-box;
     background: #18A0FB;
     cursor: pointer;
-    }
+}
     
-    div.app {
+div.app {
     cursor: pointer;
     width: 100%;
     padding: 8px 12px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    }
+    /* justify-content: space-between; */
+}
     
-    div.app:hover{
+div.app:hover{
     background: #F0F0F0;
-    }
-    
-    .app-icon {
+}
+   
+.app-icon {
     width: 48px;
     height: 48px;
     border: 0.5px solid #E5E5E5;
     box-sizing: border-box;
     border-radius: 12px;
-    margin-right: 10px;
-    }
+    margin-right: 8px;
+    transition: all ease-in-out 150ms;
+}
+
+div.app:hover .app-icon {
+    transform: scale(1.1);
+}
     
-    .text {
-    flex-basis: auto;
-    }
-    .track-name {
+.text {
+    flex: 2 4 auto;
+}
+.track-name {
     font-size: 14px;
     line-height: 150%;
     display: -webkit-box;
@@ -84,9 +96,9 @@
     white-space: normal !important;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    }
+}
     
-    .seller {
+.seller {
     font-size: 12px;
     line-height: 150%;
     color: #7F7676;
@@ -97,17 +109,34 @@
     white-space: normal !important;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    }
-    .status, #status-bar {
-    font-size: 14px;
+}
+.cta {
+    height: 12px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    color: #18A0FB;
+    text-align: right;
+    display: none;
+    width: 54px;
+}
+
+div.app:hover .cta{
+    display: block;
+}
+.status, #status-bar {
+    font-size: 13px;
     line-height: 150%;
     text-align: center;
-    color: #7F7676;
+    color: #333;
     width: 100%;
-    height: 200px;
-    padding: 0 32px;
+    padding: 10px 32px 32px 32px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    }
+}
+
+#status-bar.empty {
+    height: 200px;
+}
