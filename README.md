@@ -5,9 +5,11 @@ Figma plugin to insert app icons from App Store
 
 ![demo-anyapp-finder](https://github.com/sylvesterlau/AnyApp-Finder/assets/12065464/fe081452-63c9-4cde-9571-f5b4ddefdd74)
 
-## How to install
-This plugin is still in beta and has not yet been published in the Figma Plugin store. Feel free to install it locally and try it out!
+## On Figma Community
+This plugin is pending review and will be published soon.
+Feel free to install it locally and have a try!
 
+## How to install locally
 1. Download and unzip the file.
 2. Move the folder to somewhere else.
 3. In Figma's menu, choose Plugins > Development > Import plugin from manifest...
