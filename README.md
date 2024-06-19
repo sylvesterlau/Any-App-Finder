@@ -3,10 +3,10 @@ A Figma plugin to search and insert app icons and meta data from the App Store.
 
 Any App Finder V2.0 has some major updates! With a complete new App Detail page you can
 
-📲 Insert App screenshot preview images
-🖨️ Insert App Meta Data such as App name, descriptions, genre, version…
-🌒 Support Figma dark mode
-🟪 Support Figjam
+- 📲 Insert App screenshot preview images
+- 🖨️ Insert App Meta Data such as App name, descriptions, genre, version…
+- 🌒 Support Figma dark mode
+- 🟪 Support Figjam
 
 Other updates
 
