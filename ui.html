@@ -1,281 +1,741 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<!-- CSS style embed -->
-<style>
-*{
-    padding: 0;
-    margin: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        overflow: hidden;
+        background: var(--figma-color-bg);
+      }
+      * {
+        padding: 0;
+        margin: 0;
+        font-family: sans-serif;
+        box-sizing: border-box;
+        font-size: 13px;
+        line-height: 140%;
+        font-weight: 400;
+        color: var(--figma-color-text);
+        --list-icon-size: 48px;
+        --gap-s: 8px;
+        --gap-m: 12px;
+        --phone-preview-w: 130px;
+        --phone-preview-h: 260px;
+      }
+      h3 {
+        font-size: 20px;
+      }
+      h4 {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .search-container {
+        display: flex;
+        gap: 4px;
+        padding: 8px var(--gap-m);
+      }
+      select {
+        outline: none;
+        font-size: 13px;
+        border: 1.5px solid var(--figma-color-border);
+        border-radius: 2px;
+        padding: 2px 6px;
+        cursor: pointer;
+        background-color: var(--figma-color-bg);
+      }
+      .input-with-icon {
+        border-radius: 2px;
+        width: 100%;
+        border: 1.5px solid var(--figma-color-border);
+        background-color: var(--figma-color-bg);
+        padding: var(--gap-m);
+        max-height: 33px;
+        display: flex;
+        gap: var(--gap-s);
+        align-items: center;
+      }
+      .input-with-icon:focus-within {
+        border: 1.5px solid var(--figma-color-border-selected);
+        box-shadow: 0 0 1px rgba(13, 153, 255, 1);
+      }
+      .input-with-icon .icon-grey {
+        color: var(--figma-color-icon-secondary);
+      }
+      input {
+        border: none;
+        outline: none;
+        background-color: transparent;
+      }
+      /* clears the 'X' from Chrome */
+      input[type="search"]::-webkit-search-decoration,
+      input[type="search"]::-webkit-search-cancel-button,
+      input[type="search"]::-webkit-search-results-button,
+      input[type="search"]::-webkit-search-results-decoration {
+        display: none;
+      }
 
-input:focus, select:focus {
-    outline: none;
-}
-form#search {
-    padding: 8px 12px;
-    background: #fff;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-}
-form#search select#region {
-    font-size: 12px;
-    height: 32px;
-    background-color: #fff;
-    border: solid #E5E5E5 1px;
-    border-radius: 8px 0 0 8px;
-    padding: 0 4px;
-}
-    
-form#search input#appname {
-    font-size: 12px;
-    line-height: 1;
-    padding: 0 10px;
-    height: 32px;
-    box-sizing: border-box;
-    border: solid #E5E5E5 1px;
-    width: 100%;
-}
-    
-form#search button#submit {
-    color: #fff;
-    font-size: 12px;
-    line-height: 1;
-    height: 32px;
-    width: 48px;
-    border-radius: 0 8px 8px 0;
-    border: none;
-    box-sizing: border-box;
-    background: #18A0FB;
-    cursor: pointer;
-}
-    
-div.app {
-    cursor: pointer;
-    width: 100%;
-    padding: 12px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-    
-div.app:hover{
-    background: #F0F0F0;
-}
-   
-.app-icon {
-    width: 48px;
-    height: 48px;
-    border: 0.5px solid #E5E5E5;
-    box-sizing: border-box;
-    border-radius: 12px;
-    margin-right: 8px;
-    transition: all ease-in-out 150ms;
-}
+      .scroll-area {
+        max-height: 100vh;
+        overflow-y: scroll;
+        padding-bottom: 40px;
+      }
 
-div.app:hover .app-icon {
-    transform: scale(1.1);
-}
-    
-.text {
-    flex: 2 4 auto;
-}
-.track-name, .seller {
-    font-size: 14px;
-    line-height: 150%;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    white-space: normal !important;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-}
+      .app {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
 
-.seller {
-    font-size: 12px;
-    color: #7F7676;
-}
-.cta {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 12px;
-    color: #18A0FB;
-    text-align: right;
-    display: none;
-    min-width: 54px;
-    display: none;
-}
+      div.app:hover {
+        background: var(--figma-color-bg-secondary);
+      }
+      .app-icon {
+        margin: var(--gap-m);
+        cursor: pointer;
+        min-width: var(--list-icon-size);
+        height: var(--list-icon-size);
+        border: 1px solid var(--figma-color-border, #e6e6e6);
+        box-sizing: border-box;
+        border-radius: 25%;
+        overflow: hidden;
+        transition: all ease-in-out 50ms;
+        background-size: cover;
+      }
 
-div.app:hover .cta{
-    display: block;
-}
-.status, #status-bar {
-    font-size: 13px;
-    line-height: 150%;
-    text-align: center;
-    color: #333;
-    width: 100%;
-    padding: 10px 32px 32px 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+      .img-overlay {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.55);
+        opacity: 0;
+        transition: all 100ms ease-in-out;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: auto;
+      }
 
-#status-bar.empty {
-    height: 200px;
-}
-.loader {
-    width: 24px;
-    height: 24px;
-    border: 1px solid #333;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    }
+      .app-icon:hover .img-overlay,
+      .screenshot:hover .img-overlay {
+        opacity: 1;
+      }
 
-    @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-} 
-</style>
-</head>
-<body>
-    <form id="search" action="" onsubmit="return false;">
-        <select name="region" id="region">
-            <option value="US">🇺🇸US</option>
-            <option value="GB">🇬🇧UK</option>
-            <option value="HK">🇭🇰HK</option>
-            <option value="CN">🇨🇳CN</option>
-            <option value="KR">🇰🇷KR</option>
-            <option value="JP">🇯🇵JP</option>
+      .app-icon.large {
+        margin: 0;
+        min-width: 72px;
+        height: 72px;
+      }
+
+      .app .right {
+        align-self: stretch;
+        display: flex;
+        flex: 2 4 auto;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        padding: 0 var(--gap-m) 0 0;
+      }
+      .track-name,
+      .seller {
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        white-space: normal !important;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+
+      .seller {
+        font-size: 12px;
+        color: var(--figma-color-text-secondary);
+      }
+
+      .cta {
+        display: none;
+        cursor: pointer;
+        padding: var(--gap-s);
+      }
+
+      .cta:hover {
+        background: var(--figma-color-bg-tertiary, #e6e6e6);
+      }
+
+      .right:hover .cta {
+        display: block;
+      }
+      #status-bar {
+        color: var(--figma-color-text-secondary);
+        text-align: center;
+        width: 100%;
+        padding: var(--gap-m);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--gap-s);
+      }
+
+      #status-bar.empty {
+        height: max-content;
+        padding-top: 50%;
+        justify-content: flex-start;
+      }
+      .icon {
+        stroke: var(--figma-color-icon-secondary);
+      }
+
+      .spinner {
+        width: 24px;
+        height: 24px;
+        border: 1.5px solid var(--figma-color-icon-secondary);
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      /* app detail ui */
+      .app-detail-ui {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+        top: 0;
+        left: 100%;
+        z-index: 2;
+        background-color: var(--figma-color-bg);
+        color: var(--figma-color-text);
+        transition: all 300ms ease-in-out;
+      }
+      .app-detail-ui[active="true"] {
+        left: 0;
+      }
+      .app-detail-ui #nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background: var(--figma-color-bg);
+      }
+      .button--back {
+        padding: var(--gap-m);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+      .button--back:hover {
+        background: var(--figma-color-bg-hover);
+      }
+      .link--blue {
+        color: var(--figma-color-text-brand);
+        text-decoration: none;
+        margin-right: var(--gap-m);
+      }
+      .link--blue:hover {
+        text-decoration: underline;
+      }
+      .playback {
+        display: flex;
+        width: 100%;
+        padding: var(--gap-m);
+        gap: var(--gap-m);
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: all 100ms ease-in-out;
+      }
+      .playback:hover {
+        background: var(--figma-color-bg-hover);
+      }
+      .playback:last-of-type {
+        margin-bottom: 40px;
+      }
+      .vertical {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--gap-s);
+      }
+      .playback.vertical p {
+        text-align: left;
+      }
+      svg.hover-hint {
+        display: none;
+      }
+      .playback:hover svg.hover-hint {
+        display: block;
+        animation: scale 150ms linear forwards;
+      }
+      @keyframes scale {
+        0% {
+          width: 0;
+          opacity: 0;
+        }
+        100% {
+          width: 14px;
+          opacity: 1;
+        }
+      }
+      .playback .right-hint {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .hero {
+        display: flex;
+        width: 100%;
+        padding: var(--gap-m);
+        align-items: center;
+        gap: 12px;
+        justify-content: start;
+      }
+      .screenshot-section {
+        padding: var(--gap-m) 0;
+      }
+      .screenshot-section h4 {
+        margin: 0 var(--gap-m);
+      }
+      .playback p {
+        width: fit-content;
+        text-align: right;
+        overflow: hidden;
+        color: var(--figma-color-text-secondary);
+        text-overflow: ellipsis;
+        font-style: normal;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+      }
+      .h-slides {
+        display: flex;
+        gap: 8px;
+        overflow-x: scroll;
+        scroll-snap-type: y mandatory;
+        width: auto;
+        padding: var(--gap-m);
+      }
+      .screenshot.phone {
+        min-width: var(--phone-preview-w);
+        height: var(--phone-preview-h);
+        border: 1.5px solid var(--figma-color-border);
+        cursor: pointer;
+        background-size: cover;
+        background-position: center;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search-ui">
+      <div class="search-container">
+        <select name="region" id="region" class="select-menu-new">
+          <option value="US">🇺🇸 US</option>
+          <option value="GB">🇬🇧 UK</option>
+          <option value="HK">🇭🇰 HK</option>
+          <option value="CN">🇨🇳 CN</option>
+          <option value="KR">🇰🇷 KR</option>
+          <option value="JP">🇯🇵 JP</option>
+          <option value="AU">🇦🇺 AU</option>
         </select>
-        <input id="appname" type="search" name="appname" placeholder="Search for App icon...">
-        <button id="submit" type="submit" onclick="OnSubmit()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
-    </form>
-    <div id="list"></div>
-    <div id="status-bar"></div>
+        <div class="input-with-icon">
+          <div class="icon-grey">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <input
+            id="appname"
+            type="search"
+            name="appname"
+            placeholder="Search in App Store..."
+          />
+        </div>
+      </div>
+      <div class="scroll-area">
+        <div id="list"></div>
+        <div id="status-bar"></div>
+      </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <div class="app-detail-ui" id="app-detail-ui" active="false">
+      <div id="nav"></div>
+      <div id="content"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
     <script>
-    showStatus('initial');
-    $("input[name='appname']").focus();
-    
-    //Click function
-    function OnSubmit() {
-        $('#list').empty();
-        var text = $("input[name='appname']").val();
-            limit = 50; //result limit
-        if (text) {
-        var url = searchUrl();
-        var apiResults = [];
-        $(function(){
-            $.ajax({
-            async: true,
-            type: "GET",
-            dataType: 'json',
-            url: url,
-            data: "",
-            cache: true,
-            timeout: 5000,
-            contentType: "text/json,charset=utf-8",
-            success: function(msg, textStatus, xhr) {
-            if (msg.resultCount == 0) {
-                showStatus('empty');
-            } else {
-            $('#list').empty();
-            $('#status-bar').html(`Showing top ${limit} results`).removeClass('empty');
-            apiResults = msg.results;
-            for (let i = 0, len = msg.resultCount; i < len; i++) {
-                var imgUrl = apiResults[i].artworkUrl512;
-                var img = $('<img/>').addClass('app-icon').attr('src', imgUrl);
-                var name = $('<p/>').addClass('track-name').append(apiResults[i].trackName);
-                var seller = $('<p/>').addClass('seller').append(apiResults[i].sellerName);
-                var text = $('<div/>').addClass('text').append(name).append(seller);
-                var cta = $('<div/>').addClass('cta').append('Add icon');
-                var p = $('<div/>').attr('i', i).addClass("app").append(img).append(text).append(cta);
-                p.click(function(){
-                var index = $(this).attr('i');
-                var url = apiResults[index].artworkUrl512;
-                sendMsg(url);
-                });
-                $('#list').append(p);
-            }
-            }},
-            error: function(jqXHR, textStatus, errorThrown) {
-            if(textStatus==="timeout") {
-                showStatus('timeOut');
-            }
-            }
+      const inputSearchBar = $("input#appname"),
+        regionSelectMenu = $("select#region");
+      // svg sicons
+      const icn = {
+        detail() {
+          return $(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>'
+          );
+        },
+        search() {
+          return $(
+            '<svg xmlns="&ns_svg;" class="icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>'
+          );
+        },
+        warning() {
+          return $(
+            '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
+          );
+        },
+        back() {
+          return $(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'
+          );
+        },
+        download() {
+          return $(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10ZM11 6C11 5.44772 10.5523 5 10 5C9.44772 5 9 5.44772 9 6V11.5858L6.70711 9.29289C6.31658 8.90237 5.68342 8.90237 5.29289 9.29289C4.90237 9.68342 4.90237 10.3166 5.29289 10.7071L9.29289 14.7071C9.68342 15.0976 10.3166 15.0976 10.7071 14.7071L14.7071 10.7071C15.0976 10.3166 15.0976 9.68342 14.7071 9.29289C14.3166 8.90237 13.6834 8.90237 13.2929 9.29289L11 11.5858V6Z" fill="#ffffff"/></svg>'
+          );
+        },
+        downloadSmall() {
+          return $(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6.99999 2V12M6.99999 12L3 8M6.99999 12L11 8" stroke="#18A0FB" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          );
+        },
+        spinner() {
+          return $("<div/>").addClass("spinner");
+        },
+      };
+
+      //ui elements
+      const ui = {
+        // back button
+        btnBack() {
+          var buttonBack = $("<div/>")
+            .append(icn.back())
+            .append("Back")
+            .addClass("button--back")
+            .click(function () {
+              showAppDetailUI(false);
             });
+          return buttonBack;
+        },
+        //image insert overlay
+        imgMask() {
+          return $("<div/>").addClass("img-overlay").append(icn.download());
+        },
+        //create app list
+        appList(data) {
+          var imgUrl = data.artworkUrl512,
+            appID = data.trackId;
+
+          var img = $("<div/>")
+            .addClass("app-icon")
+            .css("background-image", `url(${imgUrl}`)
+            .click(function () {
+              figInsert.image(data.artworkUrl512);
+            })
+            .append(ui.imgMask);
+          var name = $("<h4/>").addClass("track-name").append(data.trackName);
+          var seller = $("<p/>").addClass("seller").append(data.sellerName);
+          var text = $("<div/>").addClass("text").append(name).append(seller);
+          var cta = $("<div/>").addClass("cta").append(icn.detail());
+          var right = $("<div/>")
+            .addClass("right")
+            .append(text)
+            .append(cta)
+            .click(function () {
+              showAppDetailUI(true, data);
+            });
+          var p = $("<div/>")
+            .attr("appID", appID)
+            .addClass("app")
+            .append(img)
+            .append(right);
+          return p;
+        },
+        //create app detail list
+        detailList(title, content) {
+          var right = $("<div/>")
+            .addClass("right-hint")
+            .append($("<p/>").append(content))
+            .append(icn.downloadSmall().addClass("hover-hint"));
+          var list = $("<div/>")
+            .addClass("playback")
+            .append($("<h4/>").append(title))
+            .append(right)
+            .click(function () {
+              figInsert.text(content);
+            });
+          return list;
+        },
+        appStoreLink(appStoreUrl) {
+          var appStoreLink = $("<a target='_blank'>View in App Store</a>")
+            .addClass("link--blue")
+            .attr("href", appStoreUrl);
+          return appStoreLink;
+        },
+        //return phone screenshot
+        phoneScreenshot(screenshotUrl) {
+          var phoneScreenshot = $("<div/>")
+            .addClass("screenshot phone")
+            .css("background-image", `url(${screenshotUrl}`)
+            .append(ui.imgMask)
+            .click(() => figInsert.image(screenshotUrl));
+          return phoneScreenshot;
+        },
+        //return img preview slides
+        imgPreviewSlides(urlSet) {
+          var title = $("<h4/>")
+            .addClass("title")
+            .append(`Screenshots (${urlSet.length})`);
+          var slides = $("<div/>").addClass("h-slides");
+          urlSet.forEach((url) => slides.append(ui.phoneScreenshot(url)));
+          var imgPreview = $("<div/>")
+            .addClass("screenshot-section")
+            .append(title)
+            .append(slides);
+          return imgPreview;
+        },
+      };
+      //Figma: set and get client storage
+      const figClientStorage = {
+        set(storageMsg) {
+          parent.postMessage(
+            { pluginMessage: { type: "set-client-storage", storageMsg } },
+            "*"
+          );
+        },
+        get() {
+          parent.postMessage(
+            { pluginMessage: { type: "get-client-storage" } },
+            "*"
+          );
+        },
+      };
+      showStatus("initial");
+      setLastMenu();
+      figClientStorage.get();
+      inputSearchBar
+        .on("keypress", function (e) {
+          if (e.which == 13) {
+            //when press "enter" key
+            onSearch();
+          }
         })
-    }}
+        .on("input", function () {
+          if (!this.value) {
+            showStatus("initial");
+          }
+        })
+        .focus();
 
-    async function sendMsg(imgUrl) {
-    let res = await fetch(imgUrl);
-    let buffer = await res.arrayBuffer();
-    let data = new Uint8Array(buffer);
-
-    parent.postMessage({ pluginMessage: { type: 'create-image', data } }, '*')
-    }
-
-    $("input#appname").on("input", function() {
-    if (!this.value) {
-        showStatus('initial');
-    }
-    });
-
-    //assembleing search url
-    function searchUrl() {
-        var text = $("input[name='appname']").val();
-            region = $("select[name='region']").val()
-            showStatus ('loading');
-            text = encodeURIComponent(text);
-            var url = `https://itunes.apple.com/search?entity=software&limit=${limit}&country=${region}&term=${text}`;
-            return url;
-    }
-
-    //status bar info
-    function showStatus (status) {
-        switch (status) {
-            case 'initial':
-                $('#list').empty();
-                $('#status-bar').html("Search app icons from App Store, click to add it to your canvas!").addClass('empty');
-                break;
-
-            case 'loading':
-                $('#list').empty();
-                $('#status-bar').html('<span class="loader"></span><br><p>Fetching App Store data...<p>').addClass('empty');
-                break;
-
-            case 'timeOut':
-                $('#list').empty();
-                $('#status-bar').html('<p>Hmm...can’t connect to <a href="https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html#//apple_ref/doc/uid/TP40017632-CH3-SW1">App Store API</a>. Please try again.</p>').addClass('empty');
-                break;
-
-            case 'empty':
-                $('#list').empty();
-                $('#status-bar').html("No results match your keyword. Please try other keywords or change the region.").addClass('empty');
-                break;
+      //fetch from iTunes search api
+      function onSearch() {
+        $("#list").empty();
+        var keyword = inputSearchBar.val();
+        limit = 20; //result limit
+        if (keyword) {
+          var url = searchUrl();
+          var apiResults = [];
+          $(function () {
+            $.ajax({
+              async: true,
+              type: "GET",
+              dataType: "json",
+              url: url,
+              // data: "",
+              cache: true,
+              timeout: 5000,
+              contentType: "text/json,charset=utf-8",
+              success: function (msg, textStatus, xhr) {
+                if (msg.resultCount == 0) {
+                  showStatus("empty");
+                } else {
+                  $("#list").empty();
+                  $("#status-bar")
+                    .html(`Showing top ${limit} results`)
+                    .removeClass("empty");
+                  apiResults = msg.results;
+                  for (let i = 0, len = msg.resultCount; i < len; i++) {
+                    $("#list").append(ui.appList(apiResults[i]));
+                  }
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                if (textStatus === "timeout") {
+                  showStatus("timeOut");
+                  console.log(errorThrown);
+                }
+              },
+            });
+          });
         }
-    }
+      }
 
-</script>
-</body>
+      //assembleing search url
+      function searchUrl() {
+        var text = inputSearchBar.val();
+        region = regionSelectMenu.val();
+        figClientStorage.set({ theme: "dark", lastRegion: region });
+        figClientStorage.get();
+        showStatus("loading");
+        text = encodeURIComponent(text);
+        var url = `https://itunes.apple.com/search?entity=software&limit=${limit}&country=${region}&term=${text}`;
+        return url;
+      }
+
+      //status bar info
+      function showStatus(status) {
+        $("#list").empty();
+        const statusText = {
+          initial:
+            "Search apps from the App Store, click to add icons and meta data to your design",
+          loading: "loading...",
+          timeOut:
+            '<p>Hmm...can’t connect to <a target="_blank" href="https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html#//apple_ref/doc/uid/TP40017632-CH3-SW1">App Store API</a>. Please try again.</p>',
+          noResult:
+            "No results match your keyword. Please try other keywords or change the region.",
+        };
+        switch (status) {
+          case "initial":
+            statusCopy(statusText.initial, icn.search);
+            break;
+          case "loading":
+            statusCopy(statusText.loading, icn.spinner);
+            break;
+
+          case "timeOut":
+            statusCopy(statusText.timeOut, icn.warning);
+            break;
+
+          case "empty":
+            statusCopy(statusText.noResult, icn.warning);
+            break;
+        }
+
+        function statusCopy(text, icn) {
+          $("#status-bar").empty().append(icn).append(text).addClass("empty");
+        }
+      }
+
+      //show and hide app detail ui
+      function showAppDetailUI(isTrue, appData) {
+        var appDetailUI = $("#app-detail-ui"),
+          nav = appDetailUI.children("#nav"),
+          content = appDetailUI.children("#content");
+
+        content.empty(); //clear content
+
+        if (isTrue == true) {
+          nav
+            .empty()
+            .append(ui.btnBack)
+            .append(ui.appStoreLink(appData.trackViewUrl));
+          var img = $("<div/>")
+            .addClass("app-icon large")
+            .css("background-image", `url(${appData.artworkUrl512}`)
+            .click(function () {
+              figInsert.image(appData.artworkUrl512);
+            })
+            .append(ui.imgMask);
+          var heroSection = $("<div/>")
+            .addClass("hero")
+            .append(img)
+            .append(
+              $("<div/>")
+                .append($("<h4/>").append(appData.trackName))
+                .append($("<p/>").append(appData.sellerName))
+            );
+          var rightHint = $("<div/>")
+            .addClass("right-hint")
+            .append($("<p/>").append(appData.description))
+            .append(icn.downloadSmall().addClass("hover-hint"));
+          var description = $("<div/>")
+            .addClass("playback vertical")
+            .append($("<h4/>").append("Description"))
+            .append(rightHint)
+            .click(function () {
+              figInsert.text(appData.description);
+            });
+          content
+            .append(heroSection)
+            .append(ui.detailList("App Name", appData.trackName))
+            .append(ui.detailList("Seller", appData.sellerName))
+            .append(ui.detailList("Genre", appData.primaryGenreName))
+            .append(description)
+            .append(ui.imgPreviewSlides(appData.screenshotUrls))
+            .append(
+              ui.detailList(
+                "User Rating",
+                appData.averageUserRatingForCurrentVersion.toFixed(1)
+              )
+            )
+            .append(ui.detailList("Price", appData.formattedPrice))
+            .append(ui.detailList("Version", appData.version))
+            .append(
+              ui.detailList(
+                "Size",
+                `${(appData.fileSizeBytes * 0.000001).toFixed(2)} MB`
+              )
+            )
+            .append(ui.detailList("Age Rating", appData.contentAdvisoryRating));
+        }
+
+        appDetailUI.attr("active", isTrue); //show or hide app detail ui
+      }
+      // set select menu to last region
+      function setLastMenu() {
+        onmessage = (event) => {
+          var pluginMsg = event.data.pluginMessage;
+          if (
+            pluginMsg.type == "get-last-region" ||
+            typeof pluginMsg.lastRegion !== "undefined"
+          ) {
+            $(`select#region option[value=${pluginMsg.lastRegion}]`).attr(
+              "selected",
+              "selected"
+            );
+          }
+        };
+      }
+      //Figma: insert text or image
+      const figInsert = {
+        async text(text) {
+          parent.postMessage(
+            { pluginMessage: { type: "insert-text", text } },
+            "*"
+          );
+        },
+        async image(imgUrl) {
+          let res = await fetch(imgUrl);
+          let buffer = await res.arrayBuffer();
+          let data = new Uint8Array(buffer);
+          parent.postMessage(
+            { pluginMessage: { type: "create-image", data } },
+            "*"
+          );
+        },
+      };
+    </script>
+  </body>
 </html>
