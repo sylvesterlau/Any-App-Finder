@@ -15,8 +15,8 @@ Other updates
 - Migrate to Dynamically Load Pages and improve large file performance
 
 # Install locally
-1. Download and unzip the file.
-2. Move the folder to somewhere else.
+1. Download the [.zip file](https://github.com/sylvesterlau/Any-App-Finder/archive/refs/heads/v2.0.zip).
+2. Unzip and move the folder to somewhere else.
 3. In Figma's menu, choose Plugins > Development > Import plugin from manifest...
 4. Choose and open the manifest.json file in the folder in step 2.
 5. Now you should be able to run the AnyApp Finder plugin in your Figma plugin dropdown. Enjoy!
