@@ -1,4 +1,4 @@
-# Any App Finder V2.0 beta
+# Any App Finder V2.0
 
 A Figma plugin to search and insert app icons and meta data from the App Store.
 
@@ -15,6 +15,13 @@ Other updates
 - Specify network usage in manifest.json
 - Migrate to Dynamically Load Pages and improve large file performance
 
+# Published version
+
+[**👉🏻 Get it now 👈🏻**](https://www.figma.com/community/plugin/1091985525021410415/Any-App-Finder)
+![any-app-finder-2-cover-art](https://github.com/sylvesterlau/Any-App-Finder/assets/12065464/c989c108-d1b9-4652-ae35-e3c265fc354f)
+![App Finder Preview](https://github.com/sylvesterlau/Any-App-Finder/assets/12065464/b86e6cd1-2e6f-4a45-bc04-299d267de3a0)
+
+
 # Install locally
 
 1. Download the [.zip file](https://github.com/sylvesterlau/Any-App-Finder/archive/refs/heads/v2.0.zip).
@@ -23,14 +30,6 @@ Other updates
 4. Choose and open the manifest.json file in the folder in step 2.
 5. Now you should be able to run the AnyApp Finder plugin in your Figma plugin dropdown. Enjoy!
 
-# Published version
-
-[**👉🏻 Get it now 👈🏻**](https://www.figma.com/community/plugin/1091985525021410415/Any-App-Finder)
-
-![any-app-finder-2-cover-art](https://github.com/sylvesterlau/Any-App-Finder/assets/12065464/c989c108-d1b9-4652-ae35-e3c265fc354f)
-
-
-![App Finder Preview](https://github.com/sylvesterlau/Any-App-Finder/assets/12065464/b86e6cd1-2e6f-4a45-bc04-299d267de3a0)
 
 
 
