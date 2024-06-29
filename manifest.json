@@ -1,10 +1,16 @@
 {
-  "name": "AnyApp Finder",
+  "name": "Any App Finder",
   "id": "1091985525021410415",
   "api": "1.0.0",
   "main": "code.js",
-  "editorType": [
-    "figma"
-  ],
-  "ui": "ui.html"
+  "editorType": ["figma", "figjam"],
+  "ui": "ui.html",
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://itunes.apple.com",
+      "https://is1-ssl.mzstatic.com",
+      "https://cdn.jsdelivr.net"
+    ]
+  }
 }
