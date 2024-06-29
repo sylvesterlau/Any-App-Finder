@@ -27,9 +27,13 @@ Other updates
 
 [**👉🏻 Get it now 👈🏻**](https://www.figma.com/community/plugin/1091985525021410415/Any-App-Finder)
 
-![Plugin cover art](https://github.com/sylvesterlau/AnyApp-Finder/assets/12065464/87f0b878-e292-4a04-b274-aa18950504ea)
+![any-app-finder-2-cover-art](https://github.com/sylvesterlau/Any-App-Finder/assets/12065464/c989c108-d1b9-4652-ae35-e3c265fc354f)
 
-![demo-anyapp-finder](https://github.com/sylvesterlau/AnyApp-Finder/assets/12065464/fe081452-63c9-4cde-9571-f5b4ddefdd74)
+
+![App Finder Preview](https://github.com/sylvesterlau/Any-App-Finder/assets/12065464/b86e6cd1-2e6f-4a45-bc04-299d267de3a0)
+
+
+
 
 ## Install with manifest.json
 
