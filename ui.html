@@ -19,8 +19,8 @@
         --list-icon-size: 48px;
         --gap-s: 8px;
         --gap-m: 12px;
-        --phone-preview-w: 130px;
-        --phone-preview-h: 260px;
+        --phone-preview-w: 120px;
+        --phone-preview-h: 256px;
       }
       h3 {
         font-size: 20px;
@@ -29,7 +29,14 @@
         font-size: 14px;
         font-weight: 500;
       }
+      .search-ui {
+        max-height: 100vh;
+        overflow: scroll;
+      }
       .search-container {
+        position: sticky;
+        top: 0;
+        background: var(--figma-color-bg);
         display: flex;
         gap: 4px;
         padding: 8px var(--gap-m);
@@ -73,13 +80,6 @@
       input[type="search"]::-webkit-search-results-decoration {
         display: none;
       }
-
-      .scroll-area {
-        max-height: 100vh;
-        overflow-y: scroll;
-        padding-bottom: 40px;
-      }
-
       .app {
         width: 100%;
         display: flex;
@@ -319,11 +319,12 @@
       }
       .h-slides {
         display: flex;
-        gap: 8px;
+        gap: var(--gap-m);
         overflow-x: scroll;
-        scroll-snap-type: y mandatory;
+        scroll-snap-type: x mandatory;
         width: auto;
         padding: var(--gap-m);
+        scroll-padding: var(--gap-m);
       }
       .screenshot.phone {
         min-width: var(--phone-preview-w);
@@ -334,6 +335,7 @@
         background-position: center;
         border-radius: 16px;
         overflow: hidden;
+        scroll-snap-align: start;
       }
     </style>
   </head>
@@ -452,7 +454,7 @@
             .addClass("app-icon")
             .css("background-image", `url(${imgUrl}`)
             .click(function () {
-              figInsert.image(data.artworkUrl512);
+              figInsert.image(data.artworkUrl512, "icon", data.trackName);
             })
             .append(ui.imgMask);
           var name = $("<h4/>").addClass("track-name").append(data.trackName);
@@ -495,21 +497,23 @@
           return appStoreLink;
         },
         //return phone screenshot
-        phoneScreenshot(screenshotUrl) {
+        phoneScreenshot(screenshotUrl, appName) {
           var phoneScreenshot = $("<div/>")
             .addClass("screenshot phone")
             .css("background-image", `url(${screenshotUrl}`)
             .append(ui.imgMask)
-            .click(() => figInsert.image(screenshotUrl));
+            .click(() => figInsert.image(screenshotUrl, "phone", appName));
           return phoneScreenshot;
         },
         //return img preview slides
-        imgPreviewSlides(urlSet) {
+        imgPreviewSlides(urlSet, appName) {
           var title = $("<h4/>")
             .addClass("title")
             .append(`Screenshots (${urlSet.length})`);
           var slides = $("<div/>").addClass("h-slides");
-          urlSet.forEach((url) => slides.append(ui.phoneScreenshot(url)));
+          urlSet.forEach((url) =>
+            slides.append(ui.phoneScreenshot(url, appName))
+          );
           var imgPreview = $("<div/>")
             .addClass("screenshot-section")
             .append(title)
@@ -655,7 +659,7 @@
             .addClass("app-icon large")
             .css("background-image", `url(${appData.artworkUrl512}`)
             .click(function () {
-              figInsert.image(appData.artworkUrl512);
+              figInsert.image(appData.artworkUrl512, "icon", appData.trackName);
             })
             .append(ui.imgMask);
           var heroSection = $("<div/>")
@@ -683,7 +687,9 @@
             .append(ui.detailList("Seller", appData.sellerName))
             .append(ui.detailList("Genre", appData.primaryGenreName))
             .append(description)
-            .append(ui.imgPreviewSlides(appData.screenshotUrls))
+            .append(
+              ui.imgPreviewSlides(appData.screenshotUrls, appData.trackName)
+            )
             .append(
               ui.detailList(
                 "User Rating",
@@ -726,12 +732,23 @@
             "*"
           );
         },
-        async image(imgUrl) {
+        async image(imgUrl, type, appName) {
+          // figInsert.image(screenshotUrl, "phone", appName))
           let res = await fetch(imgUrl);
           let buffer = await res.arrayBuffer();
-          let data = new Uint8Array(buffer);
+          let data = new Uint8Array(buffer),
+            imgW = type === "phone" ? 390 : 150,
+            imgH = type === "phone" ? 844 : 150;
           parent.postMessage(
-            { pluginMessage: { type: "create-image", data } },
+            {
+              pluginMessage: {
+                type: "create-image",
+                data,
+                imgW,
+                imgH,
+                appName,
+              },
+            },
             "*"
           );
         },

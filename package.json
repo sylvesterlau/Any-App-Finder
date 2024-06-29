@@ -1,6 +1,6 @@
 {
   "name": "any-app-finder",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Quickly find and insert App Store icons into Figma using iTunes Search API.",
   "main": "code.js",
   "scripts": {

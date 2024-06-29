@@ -7,65 +7,53 @@ figma.showUI(__html__, {
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "create-image") {
-    // No layer is selected
+    // create new fills
+    const newFills = [
+      {
+        type: "IMAGE",
+        scaleMode: "FILL",
+        imageHash: figma.createImage(msg.data).hash,
+      },
+    ];
+
     if (!figma.currentPage.selection[0]) {
-      figma.notify("Select layer(s) to add icon");
+      const rect = figma.createRectangle();
+      rect.x = figma.viewport.center.x;
+      rect.y = figma.viewport.center.y;
+      rect.resize(msg.imgW ? msg.imgW : 80, msg.imgH ? msg.imgH : 80);
+      rect.fills = newFills;
+      rect.name = msg.appName ? msg.appName : "app";
+      figma.currentPage.appendChild(rect);
     } else {
       // A single layer or Multiple layers are selected
       for (const selection of figma.currentPage.selection) {
         if ("fills" in selection && selection.type !== "TEXT") {
-          const newPaint = {
-            type: "IMAGE",
-            scaleMode: "FILL",
-            imageHash: "",
-            imageTransform: [
-              [1, 0, 0],
-              [0, 1, 0],
-            ],
-            filters: {
-              contrast: 0,
-              exposure: 0,
-              highlights: 0,
-              saturation: 0,
-              shadows: 0,
-              temperature: 0,
-              tint: 0,
-            },
-            rotation: 0,
-            scalingFactor: 0.5,
-            visible: true,
-          };
-          newPaint.imageHash = figma.createImage(msg.data).hash;
-          const newFills = [];
-          newFills.push(newPaint);
           selection.fills = newFills;
         } else {
-          //no fill in selection
-          figma.notify("Please select shapes or frames to add the image");
+          figma.notify("Select shapes or frames to add the image");
         }
       }
     }
   }
-  if (msg.type === "close") {
-    figma.closePlugin();
-  }
   if (msg.type === "insert-text") {
     // No layer is selected
     if (!figma.currentPage.selection[0]) {
-      figma.notify("You haven't select a layer");
+      (async () => {
+        const newText = figma.createText();
+        newText.x = figma.viewport.center.x;
+        newText.y = figma.viewport.center.y;
+        await figma.loadFontAsync(newText.fontName);
+        newText.characters = msg.text ? msg.text : "something is wrong...";
+        figma.currentPage.appendChild(newText);
+      })();
     } else {
       // A single layer or Multiple layers are selected
       for (const selection of figma.currentPage.selection) {
         if (selection.type == "TEXT") {
-          const myFontLoadingFunction = async () => {
-            await figma.loadFontAsync(selection.fontName);
-          };
-          myFontLoadingFunction().then(() => {
-            // font loading Success!
-            selection.characters = msg.text;
-          });
+          await figma.loadFontAsync(selection.fontName);
+          selection.characters = msg.text ? msg.text : "error";
         } else {
-          figma.notify("Select text layer(s) to insert");
+          figma.notify("Select text layers to insert text");
         }
       }
     }
