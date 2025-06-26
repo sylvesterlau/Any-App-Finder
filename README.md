@@ -8,6 +8,7 @@ Any App Finder V2.0 has some major updates! With a complete new App Detail page 
 - 🖨️ Insert App Meta Data such as App name, descriptions, genre, version…
 - 🌒 Support Figma dark mode
 - 🟪 Support Figjam
+- 🟧 Support Figma slides
 
 Other updates
 
