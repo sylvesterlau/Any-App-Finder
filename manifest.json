@@ -3,7 +3,7 @@
   "id": "1091985525021410415",
   "api": "1.0.0",
   "main": "code.js",
-  "editorType": ["figma", "figjam"],
+  "editorType": ["figma", "figjam", "slides"],
   "ui": "ui.html",
   "documentAccess": "dynamic-page",
   "networkAccess": {

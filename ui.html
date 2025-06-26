@@ -275,6 +275,7 @@
       }
       .playback:hover svg.hover-hint {
         display: block;
+        stroke: var(--figma-color-text-brand);
         animation: scale 150ms linear forwards;
       }
       @keyframes scale {
@@ -420,7 +421,7 @@
         },
         downloadSmall() {
           return $(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6.99999 2V12M6.99999 12L3 8M6.99999 12L11 8" stroke="#18A0FB" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6.99999 2V12M6.99999 12L3 8M6.99999 12L11 8" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>'
           );
         },
         spinner() {
